@@ -330,7 +330,17 @@ export default function ArcRaidersStartingSoon() {
         }
         const el1 = document.getElementById('glitch-audio') as HTMLAudioElement | null;
         const el2 = document.getElementById('siren-audio') as HTMLAudioElement | null;
-        [el1, el2].forEach(el => { if (el) { el.muted = True; el.play().catch(() => {}).finally(() => { el.pause(); el.currentTime = 0; el.muted = False; }); } });
+[el1, el2].forEach((el) => {
+  if (!el) return;
+  el.muted = true;
+  el.play().catch(() => {}).finally(() => {
+    try {
+      el.pause();
+      el.currentTime = 0;
+    } catch {}
+    el.muted = false;
+  });
+});
       } catch {}
       window.removeEventListener('pointerdown', unlock);
       window.removeEventListener('keydown', unlock);
